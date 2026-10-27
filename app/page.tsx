@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { homeHeading } from "../lib/home-heading";
+import { todoCountText } from "../lib/todo-count";
 import { addTodo, loadTodos, saveTodos, type Todo } from "../lib/todos";
 
 export default function Home() {
@@ -43,6 +44,7 @@ export default function Home() {
           <li key={todo.id}>{todo.title}</li>
         ))}
       </ul>
+      <p>{todoCountText(todos.length)}</p>
     </main>
   );
 }
