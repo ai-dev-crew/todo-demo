@@ -6,6 +6,7 @@ import {
   loadTodos,
   parseTodos,
   saveTodos,
+  todoCountLabel,
   type StorageLike,
 } from "./todos";
 
@@ -47,6 +48,36 @@ describe("addTodo", () => {
       error: "Give the todo a title",
     });
     expect(BLANK_TITLE_MESSAGE).toBe("Give the todo a title");
+  });
+});
+
+describe("todoCountLabel", () => {
+  test("says no todos yet for none", () => {
+    expect(todoCountLabel(0)).toBe("No todos yet");
+  });
+
+  test("uses the singular for one", () => {
+    expect(todoCountLabel(1)).toBe("1 todo");
+  });
+
+  test("uses the plural for several", () => {
+    expect(todoCountLabel(3)).toBe("3 todos");
+  });
+
+  test("updates as soon as a todo is added", () => {
+    const first = addTodo([], "Milk", "1");
+    if (!first.ok) throw new Error("expected ok");
+    expect(todoCountLabel(first.todos.length)).toBe("1 todo");
+    const second = addTodo(first.todos, "Eggs", "2");
+    if (!second.ok) throw new Error("expected ok");
+    expect(todoCountLabel(second.todos.length)).toBe("2 todos");
+  });
+
+  test("a refused blank title keeps the count", () => {
+    const todos = [{ id: "1", title: "Milk" }];
+    const result = addTodo(todos, " ", "2");
+    expect(result.ok).toBe(false);
+    expect(todoCountLabel(todos.length)).toBe("1 todo");
   });
 });
 
