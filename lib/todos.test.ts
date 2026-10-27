@@ -83,6 +83,31 @@ describe("persistence", () => {
     expect(() => saveTodos(broken, [])).not.toThrow();
   });
 
+  test("treats an empty string, empty array and null as an empty list", () => {
+    expect(parseTodos("")).toEqual([]);
+    expect(parseTodos("[]")).toEqual([]);
+    expect(parseTodos(null)).toEqual([]);
+    expect(loadTodos(memoryStorage("garbage"))).toEqual([]);
+  });
+
+  test("a todo added after a reload goes below the saved ones", () => {
+    const storage = memoryStorage();
+    saveTodos(storage, [{ id: "1", title: "Milk" }]);
+    const result = addTodo(loadTodos(storage), "Eggs", "2");
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    saveTodos(storage, result.todos);
+    expect(loadTodos(storage).map((todo) => todo.title)).toEqual(["Milk", "Eggs"]);
+  });
+
+  test("a refused blank title leaves the stored list untouched", () => {
+    const storage = memoryStorage();
+    const saved = [{ id: "1", title: "Milk" }];
+    saveTodos(storage, saved);
+    expect(addTodo(loadTodos(storage), "  ", "2").ok).toBe(false);
+    expect(loadTodos(storage)).toEqual(saved);
+  });
+
   test("uses a stable storage key", () => {
     expect(STORAGE_KEY).toBe("todos");
   });
