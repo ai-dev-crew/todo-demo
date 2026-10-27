@@ -2,6 +2,12 @@
 
 A small Next.js app with a tested home page.
 
+## Todo list
+
+The home page has a todo list. To add a todo, type a title in the box and press Add. The new todo appears at the bottom of the list. A title that is empty or only spaces is refused with the message "Give the todo a title".
+
+Todos are saved in the browser's `localStorage` under the key `todos`. They stay on the same browser after a reload. They are not sent to a server, so another browser or device does not see them. Clearing the site's data in the browser deletes them.
+
 ## Agent workflow
 
 1. Install dependencies with `npm ci`.
