@@ -16,3 +16,9 @@ test("renders the add-todo form with an empty list and no error", () => {
   expect(html).toContain("<ul></ul>");
   expect(html).not.toContain("Give the todo a title");
 });
+
+test("shows the empty count under the list", () => {
+  const html = renderToString(<Home />);
+
+  expect(html).toContain("</ul><p>No todos yet</p>");
+});

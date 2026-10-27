@@ -17,6 +17,11 @@ export function addTodo(todos: Todo[], title: string, id: string): AddResult {
   return { ok: true, todos: [...todos, { id, title: trimmed }] };
 }
 
+export function todoCountLabel(count: number): string {
+  if (count === 0) return "No todos yet";
+  return count === 1 ? "1 todo" : `${count} todos`;
+}
+
 export function parseTodos(raw: string | null): Todo[] {
   if (raw === null) return [];
   try {

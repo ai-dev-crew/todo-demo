@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { homeHeading } from "../lib/home-heading";
-import { addTodo, loadTodos, saveTodos, type Todo } from "../lib/todos";
+import { addTodo, loadTodos, saveTodos, todoCountLabel, type Todo } from "../lib/todos";
 
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -15,7 +15,7 @@ export default function Home() {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const result = addTodo(todos, title, crypto.randomUUID());
+    const result = addTodo(todos, title, `${Date.now()}-${Math.random().toString(36).slice(2)}`);
     if (!result.ok) {
       setError(result.error);
       return;
@@ -43,6 +43,7 @@ export default function Home() {
           <li key={todo.id}>{todo.title}</li>
         ))}
       </ul>
+      <p>{todoCountLabel(todos.length)}</p>
     </main>
   );
 }
