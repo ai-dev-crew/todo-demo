@@ -19,6 +19,13 @@ test("Done returns only done todos", () => {
   expect(filterTodos(todos, "done").map((t) => t.id)).toEqual([2]);
 });
 
+test("filtering does not change the original list", () => {
+  const copy = todos.map((t) => ({ ...t }));
+  filterTodos(todos, "done");
+  filterTodos(todos, "active");
+  expect(todos).toEqual(copy);
+});
+
 test("empty list returns empty result for every filter", () => {
   expect(filterTodos([], "all")).toEqual([]);
   expect(filterTodos([], "active")).toEqual([]);
