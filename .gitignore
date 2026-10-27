@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.next/
+coverage/
+test-results.json
+*.log
+.env*
+next-env.d.ts
+*.tsbuildinfo
